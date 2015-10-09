@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+- '4.1'
+- '0.12'
+before_script:
+- npm install -g grunt-cli
+script:
+- npm run test
+- grunt jshint
+sudo: false
+branches:
+  only:
+  - master
+cache:
+  directories:
+  - node_modules
