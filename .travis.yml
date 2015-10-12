@@ -1,7 +1,6 @@
 language: node_js
 node_js:
 - '4.1'
-- '0.12'
 before_script:
 - npm install -g grunt-cli coveralls
 script:
@@ -13,7 +12,7 @@ branches:
   - master
 after_success:
   - npm run coverage
-  - coveralls
+  - cat reports/lcov.info | coveralls
 cache:
   directories:
   - node_modules
