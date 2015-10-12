@@ -4,7 +4,8 @@
   "description": "Universal Google Analytics module for node",
   "main": "lib/analytics.js",
   "scripts": {
-    "test": "node_modules/.bin/mocha test"
+    "test": "node_modules/.bin/mocha test",
+    "coverage": "node_modules/.bin/istanbul cover --dir ./reports node_modules/.bin/_mocha test"
   },
   "repository": {
     "type": "git",
@@ -25,6 +26,7 @@
     "chai": "^3.3.0",
     "grunt": "^0.4.5",
     "grunt-contrib-jshint": "^0.11.3",
+    "istanbul": "^0.3.22",
     "matchdep": "^1.0.0",
     "mocha": "^2.3.3",
     "sinon": "^1.17.1"

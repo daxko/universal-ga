@@ -3,7 +3,7 @@ node_js:
 - '4.1'
 - '0.12'
 before_script:
-- npm install -g grunt-cli
+- npm install -g grunt-cli coveralls
 script:
 - npm run test
 - grunt jshint
@@ -11,6 +11,9 @@ sudo: false
 branches:
   only:
   - master
+after_success:
+  - npm run coverage
+  - coveralls
 cache:
   directories:
   - node_modules

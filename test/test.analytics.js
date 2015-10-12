@@ -16,8 +16,10 @@ describe('analytics', function() {
     sinon.stub(console, 'warn');
     global.window = global;
     global.document = {
-      createElement: () => ({}),
-      getElementsByTagName: () => ([{ parentNode: { insertBefore: () => {} } }])
+      createElement: function() { return {}; },
+      getElementsByTagName: function() {
+        return [{ parentNode: { insertBefore: function(){} }}];
+      }
     };
   });
 
