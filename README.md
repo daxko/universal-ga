@@ -63,7 +63,7 @@ analytics.initialize('UA-12345-1');
 analytics.create('UA-12345-2', 'anotherTracker');
 ...
 analytics.pageview('/home');
-analytics.name('anotherTracker').pageView('/home');
+analytics.name('anotherTracker').pageview('/home');
 
 ```
 
