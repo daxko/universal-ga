@@ -3,7 +3,8 @@
 var Chai   = require('chai')
   , assert = Chai.assert
   , sinon = require('sinon')
-  , analytics = require('../lib/analytics');
+  , analytics = require('../lib/analytics')
+  , sandbox;
 
 describe('analytics', function() {
 
@@ -13,7 +14,8 @@ describe('analytics', function() {
   }
 
   beforeEach(function() {
-    sinon.stub(console, 'warn');
+    sandbox = sinon.sandbox.create();
+    sandbox.stub(console, 'warn');
     global.window = global;
     global.document = {
       createElement: function() { return {}; },
@@ -24,7 +26,7 @@ describe('analytics', function() {
   });
 
   afterEach(function() {
-    console.warn.restore();
+    sandbox.restore();
     delete global.ga;
     delete global.window;
     delete global.document;
@@ -39,20 +41,33 @@ describe('analytics', function() {
     });
 
     it('should initialize analytics in debug mode', function() {
-      var createElement = sinon.spy(global.document, 'createElement');
+      var createElement = sandbox.spy(global.document, 'createElement');
       analytics.initialize({ debug: true });
       assert.match(createElement.returnValues[0].src, /analytics_debug\.js$/i);
     });
 
     it('should initialize analytics in production mode', function() {
-      var createElement = sinon.spy(global.document, 'createElement');
+      var createElement = sandbox.spy(global.document, 'createElement');
       analytics.initialize();
       assert.match(createElement.returnValues[0].src, /analytics\.js$/i);
     });
 
-    it('should initialize analytics with tracking id', function() {
+    it('should pass tracking id to create', function() {
+      var create = sandbox.spy(analytics, 'create');
       analytics.initialize('UA-XXXXX-Y');
-      assert.deepEqual(analyticsArgs().pop(), ['create', 'UA-XXXXX-Y', 'auto']);
+      assert.isTrue(create.calledWith('UA-XXXXX-Y'));
+    });
+
+    it('should pass tracking id to create with options', function() {
+      var create = sandbox.spy(analytics, 'create');
+      analytics.initialize('UA-XXXXX-Y', { clientId: '32816aa5-9dab-4e9c-8f1b-0f53a1be5497' });
+      assert.isTrue(create.calledWith('UA-XXXXX-Y', { clientId: '32816aa5-9dab-4e9c-8f1b-0f53a1be5497' }));
+    });
+
+    it('should pass tracking id to create with options excluding debug flag', function() {
+      var create = sandbox.spy(analytics, 'create');
+      analytics.initialize('UA-XXXXX-Y', { clientId: '32816aa5-9dab-4e9c-8f1b-0f53a1be5497', debug: true });
+      assert.isTrue(create.calledWith('UA-XXXXX-Y', { clientId: '32816aa5-9dab-4e9c-8f1b-0f53a1be5497' }));
     });
 
   });
