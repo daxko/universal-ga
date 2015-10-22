@@ -208,14 +208,14 @@ describe('analytics', function() {
     });
 
     it('should record event with value', function() {
-      analytics.event('category', 'action', { value: 125 });
-      assert.deepEqual(analyticsArgs().pop(), ['send', 'event', 'category', 'action', { value: 125 }]);
+      analytics.event('category', 'action', { eventValue: 125 });
+      assert.deepEqual(analyticsArgs().pop(), ['send', 'event', 'category', 'action', { eventValue: 125 }]);
     });
 
     it('should log warning if options.value is not a number', function() {
-      analytics.event('category', 'action', { value: 'this is not a number' });
-      assert.isTrue(console.warn.calledWith('[analytics]', 'event: expected `value` to be a Number.'));
-      assert.deepEqual(analyticsArgs().pop(), ['send', 'event', 'category', 'action', { value: undefined }]);
+      analytics.event('category', 'action', { eventValue: 'this is not a number' });
+      assert.isTrue(console.warn.calledWith('[analytics]', 'event: expected `options.eventValue` to be a Number.'));
+      assert.deepEqual(analyticsArgs().pop(), ['send', 'event', 'category', 'action', { eventValue: undefined }]);
     });
 
     it('should log warning if options.nonInteraction is not a boolean', function() {

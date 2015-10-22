@@ -46,15 +46,23 @@ Before anything else will work, you must first initialize analytics by passing a
 analytics.initialize('UA-12345-12');
 ```
 
+Additional options can also be sent to `analytics.create` by including them as additional properties on the options object.
 
-#### analytics.create( *trackingID*, *name* )
+###### Example
+
+```js
+analytics.initialize('UA-12345-12', { storage: 'none' });
+```
+
+
+#### analytics.create( *trackingID*, *options* )
 
 |Name|Description|
 |-----|-----|
 |trackingID| `string` Another analytics tracking id, i.e. `UA-XXXXX-YY`.
-|name| `string` Namespace additional tracking ids.
+|options| `object` or `string` (optional) additional options to pass to the tracker.
 
-Allows you to track multiple tracking ids, used in combination with `.name()`.
+Allows you to create multiple tracking ids. If you just need to add an additional tracking id, `options` can just be the name of your additional tracker. This can be used in combination with the `.name()` method.
 
 ###### Example
 
@@ -64,8 +72,20 @@ analytics.create('UA-12345-2', 'anotherTracker');
 ...
 analytics.pageview('/home');
 analytics.name('anotherTracker').pageview('/home');
-
 ```
+
+However, if you need to combine additional options with a name, you will need to name your tracker as part of the options object.
+
+###### Example
+
+```js
+analytics.initialize('UA-12345-1');
+analytics.create('UA-12345-2', {
+  name: 'anotherTracker',
+  clientId: generateUUID()
+});
+```
+
 
 This will namespace any additional values, allowing you to specify which values to send to which tracker. The above example would send the following data to analytics:
 
@@ -150,6 +170,8 @@ analytics.screenview('/about');
 |category| `string` Event category.
 |action| `string` Event action.
 |options| `object` (optional) Additional options.
+
+Allows you to track
 
 #### analytics.timing( *category*, *var*, *value*, *options* )
 
