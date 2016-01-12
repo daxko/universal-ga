@@ -34,25 +34,6 @@ describe('analytics', function() {
 
   describe('initialize', function() {
 
-    var exports = module.exports;
-    beforeEach(function() {
-      delete require.cache[require.resolve('../lib/analytics')];
-      module.exports = null;
-      require('../lib/analytics');
-      analytics = global.window.analytics;
-    });
-
-    afterEach(function() {
-      module.exports = exports;
-      delete global.window;
-      delete require.cache[require.resolve('../lib/analytics')];
-      analytics = require('../lib/analytics');
-    });
-
-    it('should attach to window', function() {
-      assert.ok(typeof analytics !== 'undefined', 'analytics is attached to window');
-    });
-
     it('should create window.ga', function() {
       analytics.initialize('UA-XXXXX-Y');
       assert.isFunction(window.ga);
