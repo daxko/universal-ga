@@ -1,6 +1,6 @@
 # universal-ga
 
-[![Build Status](https://travis-ci.org/daxko/universal-ga.svg?branch=master)](https://travis-ci.org/daxko/universal-ga) [![Coverage Status](https://coveralls.io/repos/daxko/universal-ga/badge.svg?branch=master)](https://coveralls.io/r/daxko/universal-ga?branch=master)
+[![Build Status](https://travis-ci.org/daxko/universal-ga.svg?branch=master)](https://travis-ci.org/daxko/universal-ga) [![Coverage Status](https://coveralls.io/repos/daxko/universal-ga/badge.svg?branch=master)](https://coveralls.io/r/daxko/universal-ga?branch=master) [![npm](https://img.shields.io/npm/v/universal-ga.vg?style=flat)](https://www.npmjs.com/package/universal-ga)
 
 A Universal Google Analytics module for node.
 
