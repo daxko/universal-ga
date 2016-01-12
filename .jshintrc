@@ -14,5 +14,8 @@
   "unused": true,
   "strict": true,
   "laxbreak": true,
-  "laxcomma": true
+  "laxcomma": true,
+  "globals": {
+    "define": true
+  }
 }

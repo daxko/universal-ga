@@ -9,12 +9,44 @@ module.exports = function(grunt) {
 
     pkg: grunt.file.readJSON('package.json'),
 
+    banner: '/*!\n' +
+      ' * <%= pkg.name %> v<%= pkg.version %>\n' +
+      ' * <%= pkg.homepage %> \n' +
+      ' *\n' +
+      ' * Copyright (c) <%= grunt.template.today("yyyy") %> Daxko\n' +
+      ' * <%= pkg.license %> License\n' +
+      ' */\n',
+
+    usebanner: {
+      options: {
+        banner: '<%= banner %>',
+        replace: true,
+        linebreak: false
+      },
+      dist: {
+        files: {
+          src: ['lib/analytics.js']
+        }
+      }
+    },
+
     jshint: {
       options: {
         jshintrc: true
       },
       files: {
-        src: ['gruntfile.js', 'lib/{,*/}*.js', 'test/{,*/}*.js']
+        src: ['gruntfile.js', 'lib/{,*/}*.js', '!lib/{,*/}*.min.js', 'test/{,*/}*.js']
+      }
+    },
+
+    uglify: {
+      options: {
+        banner: '<%= banner %>'
+      },
+      dist: {
+        files: {
+          'lib/analytics.min.js': ['lib/analytics.js']
+        }
       }
     },
 
@@ -27,6 +59,6 @@ module.exports = function(grunt) {
 
   });
 
-  grunt.registerTask('default', ['jshint']);
+  grunt.registerTask('default', ['usebanner', 'uglify', 'jshint']);
 
 };

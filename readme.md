@@ -86,7 +86,6 @@ analytics.create('UA-12345-2', {
 });
 ```
 
-
 This will namespace any additional values, allowing you to specify which values to send to which tracker. The above example would send the following data to analytics:
 
 ```js
@@ -101,13 +100,15 @@ This will namespace any additional values, allowing you to specify which values 
 |-----|-----|
 |name| `string` Send next value for the namespaced tracking id.
 
-Namespaces the next value that is sent to the tracker.
+Namespaces the next set of values sent to analytics.
 
 ###### Example
 
 ```js
-analytics.name('anotherTracker').pageView('/home');
-analytics.name('anotherTracker').timing('load', 'page', 123);
+analytics
+  .name('anotherTracker')
+  .pageView('/home')
+  .timing('load', 'page', 123);
 ```
 
 The above would send the following data to analytics:
@@ -125,7 +126,7 @@ The above would send the following data to analytics:
 |key| `string` Key to send to analytics.
 |value| `string` Value for the key.
 
-Set key/value pairs for the tracker.
+Set key/value pairs for analytics.
 
 ###### Example
 
@@ -155,7 +156,7 @@ analytics.pageview('/about');
 |screenname| `string` Screenname to send to analytics.
 |options| `object` (optional) Additional options.
 
-Allows you to send a screenview to analytics. Additional options for the screenview can be seen in the [app screens documentation](https://developers.google.com/analytics/devguides/collection/analyticsjs/screens).
+Send a screenview to analytics. Additional options for the screenview can be seen in the [app screens documentation](https://developers.google.com/analytics/devguides/collection/analyticsjs/screens).
 
 ###### Example
 
@@ -171,7 +172,13 @@ analytics.screenview('/about');
 |action| `string` Event action.
 |options| `object` (optional) Additional options.
 
-Allows you to track
+Send event data and event metrics to analytics. Additional options for events can be seen in the [event tracking documentation](https://developers.google.com/analytics/devguides/collection/analyticsjs/events).
+
+###### Example
+
+```js
+analytics.event('category', 'action', { eventValue: 123 });
+```
 
 #### analytics.timing( *category*, *var*, *value*, *options* )
 
@@ -182,12 +189,22 @@ Allows you to track
 |value| `int` Timing value (in milliseconds).
 |options| `object` (optional) Additional options.
 
+Send timing data to analytics. Additional options for timing can be seen in the [user timing documentation](https://developers.google.com/analytics/devguides/collection/analyticsjs/user-timings).
+
+###### Example
+
+```js
+analytics.timing('load', 'DOMContentLoaded', 123);
+```
+
 #### analytics.exception( *message*, *isFatal* )
 
 |Name|Description|
 |-----|-----|
 |message| `string` Exception message.
-|isFatal| `bool` Is fatal event.
+|isFatal| `bool` (optional) Is fatal event.
+
+Send exception data to analytics. You can specify whether or not the event was fatal with the optional boolean flag.
 
 #### analytics.custom( *key*, *value* )
 
@@ -195,3 +212,23 @@ Allows you to track
 |-----|-----|
 |key| `string` Custom dimension/metric key.
 |value| `string` Custom dimension/metric value.
+
+Send custom dimension/metrics to analytics. You need to first configure caustom dimensions/metrics through the analytics management interface. This allows you to specify a metric/dimension index to track custom values. See [custom dimensions/metrics documentation](https://developers.google.com/analytics/devguides/collection/analyticsjs/custom-dims-mets) for more details.
+
+Dimensions and metrics keys will be a key of `dimension[0-9]` or `metric[0-9]`.
+
+###### Example
+
+```js
+analytics
+  .custom('dimension01', 1234)
+  .custom('metric04', 'my custom dimension');
+```
+
+You can additional combine custom metrics/dimensions with other analytics properties (such as events or pageviews) as additional data.
+
+```js
+analytics
+  .event('category', 'action', { metric05: 'custom metric data' })
+  .pageview('/index', { dimension02: 'custom dimension data' });
+```

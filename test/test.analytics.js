@@ -16,7 +16,7 @@ describe('analytics', function() {
   beforeEach(function() {
     sandbox = sinon.sandbox.create();
     sandbox.stub(console, 'warn');
-    global.window = global;
+    global.window = {};
     global.document = {
       createElement: function() { return {}; },
       getElementsByTagName: function() {
@@ -27,7 +27,6 @@ describe('analytics', function() {
 
   afterEach(function() {
     sandbox.restore();
-    delete global.ga;
     delete global.window;
     delete global.document;
     delete global.GoogleAnalyticsObject;
@@ -35,8 +34,27 @@ describe('analytics', function() {
 
   describe('initialize', function() {
 
+    var exports = module.exports;
+    beforeEach(function() {
+      delete require.cache[require.resolve('../lib/analytics')];
+      module.exports = null;
+      require('../lib/analytics');
+      analytics = global.window.analytics;
+    });
+
+    afterEach(function() {
+      module.exports = exports;
+      delete global.window;
+      delete require.cache[require.resolve('../lib/analytics')];
+      analytics = require('../lib/analytics');
+    });
+
+    it('should attach to window', function() {
+      assert.ok(typeof analytics !== 'undefined', 'analytics is attached to window');
+    });
+
     it('should create window.ga', function() {
-      analytics.initialize();
+      analytics.initialize('UA-XXXXX-Y');
       assert.isFunction(window.ga);
     });
 
@@ -111,6 +129,36 @@ describe('analytics', function() {
       analytics.create();
       assert.isTrue(console.warn.calledWith('[analytics]', 'tracking id is required to initialize.'));
       assert.deepEqual(analyticsArgs(), []);
+    });
+
+  });
+
+  describe('chaining', function() {
+
+    beforeEach(function() {
+      analytics.initialize();
+    });
+
+    it('should chain namespace values', function() {
+      analytics.name('anotherTracker')
+        .set('key', 'value')
+        .pageview('/index');
+      assert.deepEqual(analyticsArgs().slice(-2), [
+        ['anotherTracker.set', 'key', 'value'],
+        ['send', 'pageview', '/index']
+      ]);
+    });
+
+    it('should chain properties', function() {
+      analytics
+        .set('key', 'value')
+        .pageview('/index')
+        .timing('category', 'var', 100);
+      assert.deepEqual(analyticsArgs().slice(-3), [
+        ['set', 'key', 'value'],
+        ['send', 'pageview', '/index'],
+        ['send', 'timing', 'category', 'var', 100]
+      ]);
     });
 
   });
