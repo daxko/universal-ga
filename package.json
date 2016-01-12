@@ -1,6 +1,6 @@
 {
   "name": "universal-ga",
-  "version": "1.0.0-prerelease-3",
+  "version": "1.0.0",
   "description": "Universal Google Analytics module for node",
   "main": "lib/analytics.js",
   "scripts": {
