@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/daxko/universal-ga.svg?branch=master)](https://travis-ci.org/daxko/universal-ga) [![Coverage Status](https://coveralls.io/repos/daxko/universal-ga/badge.svg?branch=master)](https://coveralls.io/r/daxko/universal-ga?branch=master) [![npm](https://img.shields.io/npm/v/universal-ga.svg?style=flat)](https://www.npmjs.com/package/universal-ga)
 
-A Universal Google Analytics module for node.
+A Universal Google Analytics module for node and the browser. You can either include this referenced via a script tag globally, or use a bundling process such as webpack or browserify. Once universal-ga has been initialized, you can any of the tracking methods to send your analytics data to Google.
 
 Currently supported features:
 
