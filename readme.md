@@ -32,7 +32,8 @@ analytics.initialize('UA-XXXXX-YYY');
 ```
 
 ###### Global script (browser)
-```
+
+```html
 <script src="analytics.js"></script>
 ...
 <script>analytics.initialize('UA-XXXXX-YYY');</script>
