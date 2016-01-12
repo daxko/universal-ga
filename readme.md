@@ -23,8 +23,17 @@ $ npm install --save universal-ga
 
 To initialize `universal-ga`, you will need to first pass in your analytics tracking id.
 
+###### browserify/webpack
+
 ```js
 var analytics = require('universal-ga');
+...
+analytics.initialize('UA-XXXXX-YYY');
+```
+
+###### Global script (browser)
+```
+<script src="analytics.js"></script>
 ...
 analytics.initialize('UA-XXXXX-YYY');
 ```
