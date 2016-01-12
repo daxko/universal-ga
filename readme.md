@@ -35,7 +35,7 @@ analytics.initialize('UA-XXXXX-YYY');
 ```
 <script src="analytics.js"></script>
 ...
-analytics.initialize('UA-XXXXX-YYY');
+<script>analytics.initialize('UA-XXXXX-YYY');</script>
 ```
 
 ## Documentation
