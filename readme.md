@@ -39,6 +39,8 @@ analytics.initialize('UA-XXXXX-YYY');
 <script>analytics.initialize('UA-XXXXX-YYY');</script>
 ```
 
+Initialization is dependant upon `window` being available at the time you call it, so be sure you call this once you can attach to window and before you call any of the other tracking methods.
+
 ## Documentation
 
 #### analytics.initialize( *trackingID*, *options* )
