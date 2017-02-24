@@ -146,6 +146,21 @@ Set key/value pairs for analytics.
 analytics.set('page', '/about');
 ```
 
+#### analytics.plugin( *name* , *options* )
+
+|Name|Description|
+|-----|-----|
+|name| `string` Plugin to require.
+|options| `object` (optional) Additional options.
+
+Allows you to add plugins to analytics. Additional options for plugins can be seen in the [plugins documentation](https://developers.google.com/analytics/devguides/collection/analyticsjs/using-plugins).
+
+###### Example
+
+```js
+analytics.plugin('foo');
+```
+
 #### analytics.pageview( *pagename* , *options* )
 
 |Name|Description|

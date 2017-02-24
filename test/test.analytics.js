@@ -164,6 +164,31 @@ describe('analytics', function() {
 
   });
 
+  describe('plugin', function() {
+
+    beforeEach(function() {
+      analytics.initialize();
+      analytics.create('UA-XXXXX-Y');
+    });
+
+    it('should add plugin name', function() {
+      analytics.plugin('foo');
+      assert.deepEqual(analyticsArgs().pop(), ['require', 'foo']);
+    });
+
+    it('should add plugin with options', function() {
+      analytics.plugin('foo', { bar: '123' });
+      assert.deepEqual(analyticsArgs().pop(), ['require', 'foo', { bar: '123' }]);
+    });
+
+    it('should abort and log warning if name is not set', function() {
+      analytics.plugin();
+      assert.isTrue(console.warn.calledWith('[analytics]', 'plugin: `name` is required.'));
+      assert.equal(analyticsArgs().length, 1);
+    });
+
+  });
+
   describe('pageview', function() {
 
     beforeEach(function() {
