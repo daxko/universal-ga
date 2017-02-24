@@ -6,6 +6,7 @@ A Universal Google Analytics module for node and the browser. You can either inc
 
 Currently supported features:
 
+* Plugins
 * Pageviews
 * Screenviews
 * Events
