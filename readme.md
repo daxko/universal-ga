@@ -205,7 +205,7 @@ Send event data and event metrics to analytics. Additional options for events ca
 ###### Example
 
 ```js
-analytics.event('category', 'action', { eventValue: 123 });
+analytics.event('category', 'action', { eventLabel: 'label' });
 ```
 
 #### analytics.timing( *category*, *var*, *value*, *options* )
