@@ -356,4 +356,74 @@ describe('analytics', function() {
 
   });
 
+  describe('ecommerce tracking', function() {
+    
+        beforeEach(function() {
+          analytics.initialize();
+          analytics.create('UA-XXXXX-Y');
+        });
+
+        it('should load the ecommerce plugin', function() {
+          analytics.initializeEcommerce();
+          assert.deepEqual(analyticsArgs().pop(), ['require', 'ecommerce']);
+        });
+    
+        it('should record a transaction', function() {
+          analytics.ecAddTransaction({'id': '1234', 'affiliation': 'Acme Clothing', 'revenue': '11.99', 'shipping': '5', 'tax': '1.29'});
+          assert.deepEqual(analyticsArgs().pop(), ['ecommerce:addTransaction', {'id': '1234', 'affiliation': 'Acme Clothing', 'revenue': '11.99', 'shipping': '5', 'tax': '1.29'}]);
+        });
+    
+        it('should record an product item', function() {
+          analytics.ecAddItem({'id': '1234', 'name': 'Fluffy Pink Bunnies', 'sku': 'DD23444', 'category': 'Party Toys', 'price': '11.99', 'quantity': '1'});
+          assert.deepEqual(analyticsArgs().pop(), ['ecommerce:addItem', {'id': '1234', 'name': 'Fluffy Pink Bunnies', 'sku': 'DD23444', 'category': 'Party Toys', 'price': '11.99', 'quantity': '1'}]);
+        });
+    
+        it('should be able to send a transaction to ga', function() {
+          analytics.ecSend();
+          assert.deepEqual(analyticsArgs().pop(), ['ecommerce:send']);
+        });
+
+        it('should be able to clear a transaction', function() {
+          analytics.ecClear();
+          assert.deepEqual(analyticsArgs().pop(), ['ecommerce:clear']);
+        });
+        
+        it('should warn and abort if the transaction is not set', function() {
+          analytics.ecAddTransaction();
+          assert(console.warn.calledWith('[analytics]', 'addTransaction: `transaction` is required and needs an `id`.'));
+          assert.equal(analyticsArgs().length, 1);
+        });
+
+        it('should warn and abort if the transaction is not set', function() {
+          analytics.ecAddTransaction();
+          assert(console.warn.calledWith('[analytics]', 'addTransaction: `transaction` is required and needs an `id`.'));
+          assert.equal(analyticsArgs().length, 1);
+        });
+
+        it('should warn and abort if the transaction id is not set', function() {
+          analytics.ecAddTransaction({});
+          assert(console.warn.calledWith('[analytics]', 'addTransaction: `transaction` is required and needs an `id`.'));
+          assert.equal(analyticsArgs().length, 1);
+        });
+
+        it('should warn and abort if the product is not set', function() {
+          analytics.ecAddItem();
+          assert(console.warn.calledWith('[analytics]', 'addItem: `productItem` is required and needs an `id` and a `name`.'));
+          assert.equal(analyticsArgs().length, 1);
+        });
+
+        it('should warn and abort if the product id is not set', function() {
+          analytics.ecAddItem({});
+          assert(console.warn.calledWith('[analytics]', 'addItem: `productItem` is required and needs an `id` and a `name`.'));
+          assert.equal(analyticsArgs().length, 1);
+        });
+
+        it('should warn and abort if the product name is not set', function() {
+          analytics.ecAddItem({id: 1});
+          assert(console.warn.calledWith('[analytics]', 'addItem: `productItem` is required and needs an `id` and a `name`.'));
+          assert.equal(analyticsArgs().length, 1);
+        });
+
+      });
+
 });

@@ -13,6 +13,7 @@ Currently supported features:
 * User timings
 * Exceptions
 * Custom Dimensions/Metrics
+* Ecommerce Tracking
 
 # Install
 
@@ -260,3 +261,73 @@ analytics
   .event('category', 'action', { metric05: 'custom metric data' })
   .pageview('/index', { dimension02: 'custom dimension data' });
 ```
+
+#### analytics.ecAddTransaction( *transaction* )
+
+|Name|Description|
+|-----|-----|
+|transaction| `object` a transaction.
+
+An ecommerce transaction represents the entire transaction that occurs on your site. See[ecommerce documentation](https://developers.google.com/analytics/devguides/collection/analyticsjs/ecommerce) for more details. A transaction `object` can consist of the following objects:
+
+|Name|Type|Description|
+|-----|-----|-----|
+|id| `text`| The transaction ID. (e.g. 1234).
+|affiliation| `text`| (optional) The store or affiliation from which this transaction occurred (e.g. Acme Clothing).
+|revenue| `currency`| (optional) No Specifies the total revenue or grand total associated with the transaction (e.g. 11.99). This value may include shipping, tax costs, or other adjustments to total revenue that you want to include as part of your revenue calculations.
+|shipping| `currency`| (optional) No Specifies the total shipping cost of the transaction. (e.g. 5).
+|tax| `currency`| (optional) No Specifies the total tax of the transaction. (e.g. 1.29).
+
+###### Example
+
+```js
+let transaction = {
+    'id': '1234',                     // Transaction ID. Required.
+    'affiliation': 'Acme Clothing',   // Affiliation or store name.
+    'revenue': '11.99',               // Grand Total.
+    'shipping': '5',                  // Shipping.
+    'tax': '1.29'                     // Tax.
+};
+
+analytics.ecAddTransaction(transaction);
+```
+
+#### analytics.ecAddItem( *productItem* )
+
+|Name|Description|
+|-----|-----|
+|productItem| `object` individual product.
+
+An item represents the individual products that were in the shopping cart, and contains the following values::
+
+|Name|Type|Description|
+|-----|-----|-----|
+|id| `text`| The transaction ID. This ID is what links items to the transactions to which they belong. (e.g. 1234).
+|name| `text`| The item name. (e.g. Fluffy Pink Bunnies).
+|sku| `text`| (optional) Specifies the SKU or item code. (e.g. SKU47).
+|category| `text`| (optional) The category to which the item belongs (e.g. Party Toys).
+|price| `text`| (optional) The individual, unit, price for each item. (e.g. 11.99).
+|quantity| `integer`| (optional) The number of units purchased in the transaction. If a non-integer value is passed into this field (e.g. 1.5), it will be rounded to the closest integer value.
+
+###### Example
+
+```js
+let productItem = {
+    'id': '1234',                     // Transaction ID. Required.
+    'name': 'Fluffy Pink Bunnies',    // Product name. Required.
+    'sku': 'DD23444',                 // SKU/code.
+    'category': 'Party Toys',         // Category or variation.
+    'price': '11.99',                 // Unit price.
+    'quantity': '1'                   // Quantity.
+};
+
+analytics.ecAddItem(productItem);
+```
+
+#### analytics.ecSend()
+
+Finally, once you have configured all your ecommerce data in the shopping cart, you send the data to Google Analytics using the ecSend command.
+
+#### analytics.ecClear()
+
+If you need to manually clear the shopping cart of all transactions and items, you use this command.
